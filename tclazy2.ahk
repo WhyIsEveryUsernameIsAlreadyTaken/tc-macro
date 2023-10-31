@@ -25,6 +25,7 @@ centeredToolTip(text, duration = 1000){
 		centeredToolTip("Off")
 	}
 	while (afk){
+		BlockInput On
 		Sleep 500
 		WinActivate, Warframe
 		WinGetPos, X, Y,,, Warframe
@@ -44,6 +45,7 @@ centeredToolTip(text, duration = 1000){
 		SendInput {Blind}{t}
 		Sleep 20
 		SendInput {Blind}{BackSpace}
+		BlockInput Off
 		Sleep 120050
 }
 return
