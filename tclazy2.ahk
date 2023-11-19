@@ -19,6 +19,9 @@ centeredToolTip(text, duration = 1000){
 		clipboard := ""
 		centeredToolTip("Clipboard emptied, please copy your desired message", 5000)
 		ClipWait, , 0 ; wait indefinitely for the clipboard to contain raw text
+		FileDelete copypastamsg.txt
+		FileAppend %Clipboard%, copypastamsg.txt
+		clipboard := ""
 		centeredToolTip("Message copied & script enabled!", 5000)
 	}
 	else {
@@ -34,17 +37,15 @@ centeredToolTip(text, duration = 1000){
 		MouseMove X+10, Y+10
 		Sleep 20
 		Send {Click}
+		Sleep 50
+		FileRead msgtext, copypastamsg.txt
 		Sleep 20
-		SendInput {Ctrl Down}
-		Sleep 20
-		SendInput {v}
-		Sleep 20
-		SendInput {Ctrl Up}
-		sleep 20
+		Send {Blind}{Text} %msgtext%
+		sleep 60
 		SendInput {enter}
 		Sleep 20
 		SendInput {Blind}{t}
-		Sleep 20
+		Sleep 50
 		SendInput {Blind}{BackSpace}
 		WinActivate, ahk_id %winid%
 		BlockInput Off
