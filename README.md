@@ -6,7 +6,7 @@ multi dev project by me, TinyZach, and alembertian
 [tclazy2](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tclazy2.ahk) is TinyZach's tc macro is an edit of mine with and alt-tab function
 ~~**IMPORTANT**
 make sure you are in your dojo when sending messages as if not the chat will not close and you will have a "t" at the beginning of each message~~
-this is no longer necessary in tclazy2 but still applies if for some reason you're using tclazy
+this is no longer necessary in tclazy2 but still applies if for some reason you're using [tc macro](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tc%20macro.ahk)
 
 Update 1.) 
 - Tethys has made an edit to TinyZach's tcm which fixes some potential issues with inputs
