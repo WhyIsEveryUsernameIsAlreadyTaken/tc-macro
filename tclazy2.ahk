@@ -29,7 +29,8 @@ centeredToolTip(text, duration = 1000){
 	}
 	while (afk){
 		BlockInput On
-		WinGet, winid ,, A ; <-- need to identify window A = acitive
+		WinGet, winid ,, A
+		MouseGetPos mousex, mousey
 		Sleep 50
 		WinActivate, Warframe
 		WinGetPos, X, Y,,, Warframe
@@ -48,6 +49,7 @@ centeredToolTip(text, duration = 1000){
 		Sleep 50
 		SendInput {Blind}{BackSpace}
 		WinActivate, ahk_id %winid%
+		MouseMove mousex, mousey
 		BlockInput Off
 		Sleep 120050
 }
