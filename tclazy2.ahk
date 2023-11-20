@@ -16,13 +16,25 @@ centeredToolTip(text, duration = 1000){
 ^j::
 	afk := !afk
 	if (afk){
-		clipboard := ""
-		centeredToolTip("Clipboard emptied, please copy your desired message", 5000)
-		ClipWait, , 0 ; wait indefinitely for the clipboard to contain raw text
-		FileDelete copypastamsg.txt
-		FileAppend %Clipboard%, copypastamsg.txt
-		clipboard := ""
-		centeredToolTip("Message copied & script enabled!", 5000)
+		MsgBox, 3, tclazy2, Do you want to replace last saved message?
+		IfMsgBox Yes
+		{
+			clipboard := ""
+			centeredToolTip("Clipboard emptied, please copy your desired message", 5000)
+			ClipWait, , 0 ; wait indefinitely for the clipboard to contain raw text
+			FileDelete copypastamsg.txt
+			FileAppend %Clipboard%, copypastamsg.txt
+			clipboard := ""
+			centeredToolTip("Message copied & script enabled!", 5000)
+		}
+		else IfMsgBox No
+		{
+			centeredToolTip("Script enabled!", 5000)
+		}
+		else IfMsgBox Cancel
+		{
+			Reload
+		}
 	}
 	else {
 		centeredToolTip("Off")
