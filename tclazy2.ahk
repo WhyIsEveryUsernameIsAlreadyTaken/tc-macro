@@ -35,9 +35,8 @@ clipboardCopy()
 	clipboard := ""
 			centeredToolTip("Clipboard emptied, please copy your desired message", 5000)
 			ClipWait, , 0 ; wait indefinitely for the clipboard to contain raw text
-			FileDelete copypastamsg.txt
+			FileDelete copypastamsg.txt ; Deletes old storage file before creating new storage file with clipboard contents
 			FileAppend %Clipboard%, copypastamsg.txt
-			clipboard := ""
 			centeredToolTip("Message copied & script enabled!", 5000)
 }
 removeToolTip(){
@@ -50,6 +49,8 @@ centeredToolTip(text, duration = 1000){
 }
 
 file := A_ScriptDir "\copypastamsg.txt"
+
+^r::Reload ; Reloads the script, used when going through loading screens in-game
 
 ^j::
 	afk := !afk
@@ -88,45 +89,87 @@ file := A_ScriptDir "\copypastamsg.txt"
 	}
 	while (afk){
 		FileGetSize,size,%file%,
-		if !FileExist(file)
+		if !FileExist(file) or size = 0
 		{
-			MsgBox, 0, No Storage File Found, Press OK to generate new file and store desired text
+			MsgBox, 0, Storage File Empty/Not Found, Press OK to generate new file and store desired text
 			clipboardCopy()
 		}
 		else
 		{
-			if size = 0
-			{
-				MsgBox, 0, Storage File Empty, Press OK to store desired text
-				clipboardCopy()
-			}
-			else
-			{
-				KeyWait Control
-				KeyWait Alt
-				KeyWait Tab
-				lSleep(50)
-				BlockInput On
-				WinGet, winid ,, A
-				MouseGetPos mousex, mousey
-				lSleep(20)
-				WinActivate, Warframe
-				WinGetPos, X, Y,,, Warframe
-				lSleep(20)
-				FileRead msgtext, copypastamsg.txt
-				lSleep(20)
-				Send {Blind}{Text} %msgtext%
-				lSleep(20)
-				Send {Blind}{enter}
-				lSleep(20)
-				Send {Blind}{t}
-				lSleep(20)
-				SendInput {Blind}{BackSpace}
-				WinActivate ahk_id %winid%
-				MouseMove mousex, mousey
-				BlockInput Off
-				lSleep(120000)
-			}
+			KeyWait Control ; KeyWaits are for making sure no keys are pressed down when BlockInput is activated,
+			KeyWait Alt     ; without this if a key is pressed down when BlockInput is activated, it'll be stuck
+			KeyWait Tab     ; down and can mess with the message being sent in trade chat
+			KeyWait Space
+			KeyWait Enter
+			KeyWait Esc
+			KeyWait BS
+			KeyWait Shift
+			KeyWait vkC0
+			KeyWait 1
+			KeyWait 2
+			KeyWait 3
+			KeyWait 4
+			KeyWait 5
+			KeyWait 6
+			KeyWait 7
+			KeyWait 8
+			KeyWait 9
+			KeyWait 0
+			KeyWait vkBD
+			KeyWait vkBB
+			KeyWait q
+			KeyWait w
+			KeyWait e
+			KeyWait r
+			KeyWait t
+			KeyWait y
+			KeyWait u
+			KeyWait i
+			KeyWait o
+			KeyWait p
+			KeyWait vkDB
+			KeyWait vkDD
+			KeyWait vkDC
+			KeyWait a
+			KeyWait s
+			KeyWait d
+			KeyWait f
+			KeyWait g
+			KeyWait h
+			KeyWait j
+			KeyWait k
+			KeyWait l
+			KeyWait vkBA
+			KeyWait vkDE
+			KeyWait z
+			KeyWait x
+			KeyWait c
+			KeyWait v
+			KeyWait b
+			KeyWait n
+			KeyWait m
+			KeyWait vkBC
+			KeyWait vkBE
+			KeyWait vkBF
+			BlockInput On ; Blocks user inputs to prevent messing with message being sent into trade chat
+			WinGet, winid ,, A ; Gets the current active window before switching to Warframe window
+			MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
+			WinActivate, ahk_id 856970
+			WinGetPos, X, Y,,, ahk_id 856970
+			FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
+			lSleep(20)
+			Send {Blind}{Text} %msgtext%
+			lSleep(20)				
+			Send {Blind}{enter} 
+			lSleep(50)
+			Send {Blind}{t} ; Reopens trade chat when in dojo
+			lSleep(20)
+			SendInput {Blind}{BackSpace} ; Removes the t typed when not in dojo
+			lSleep(20)
+			WinActivate ahk_id %winid% ; Switches back to last active window
+			MouseMove mousex, mousey ; places cursor back to last position
+			BlockInput Off ; Unblocks user inputs
+			lSleep(120000)
 		}
-}
+	}
 return
