@@ -154,8 +154,8 @@ file := A_ScriptDir "\copypastamsg.txt"
 			BlockInput On ; Blocks user inputs to prevent messing with message being sent into trade chat
 			WinGet, winid ,, A ; Gets the current active window before switching to Warframe window
 			MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
-			WinActivate, ahk_id 856970
-			WinGetPos, X, Y,,, ahk_id 856970
+			WinActivate, ahk_exe Warframe.x64.exe
+			WinGetPos, X, Y,,, ahk_exe Warframe.x64.exe
 			FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
 			lSleep(20)
 			Send {Blind}{Text} %msgtext%
