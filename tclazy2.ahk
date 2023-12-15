@@ -104,53 +104,6 @@ file := A_ScriptDir "\copypastamsg.txt"
 			KeyWait Esc
 			KeyWait BS
 			KeyWait Shift
-			KeyWait vkC0
-			KeyWait 1
-			KeyWait 2
-			KeyWait 3
-			KeyWait 4
-			KeyWait 5
-			KeyWait 6
-			KeyWait 7
-			KeyWait 8
-			KeyWait 9
-			KeyWait 0
-			KeyWait vkBD
-			KeyWait vkBB
-			KeyWait q
-			KeyWait w
-			KeyWait e
-			KeyWait r
-			KeyWait t
-			KeyWait y
-			KeyWait u
-			KeyWait i
-			KeyWait o
-			KeyWait p
-			KeyWait vkDB
-			KeyWait vkDD
-			KeyWait vkDC
-			KeyWait a
-			KeyWait s
-			KeyWait d
-			KeyWait f
-			KeyWait g
-			KeyWait h
-			KeyWait j
-			KeyWait k
-			KeyWait l
-			KeyWait vkBA
-			KeyWait vkDE
-			KeyWait z
-			KeyWait x
-			KeyWait c
-			KeyWait v
-			KeyWait b
-			KeyWait n
-			KeyWait m
-			KeyWait vkBC
-			KeyWait vkBE
-			KeyWait vkBF
 			BlockInput On ; Blocks user inputs to prevent messing with message being sent into trade chat
 			WinGet, winid ,, A ; Gets the current active window before switching to Warframe window
 			MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
@@ -159,13 +112,13 @@ file := A_ScriptDir "\copypastamsg.txt"
 			FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
 			lSleep(20)
 			Send {Blind}{Text} %msgtext%
-			lSleep(20)				
+			lSleep(50)				
 			Send {Blind}{enter} 
 			lSleep(50)
 			Send {Blind}{t} ; Reopens trade chat when in dojo
-			lSleep(20)
+			lSleep(50)
 			SendInput {Blind}{BackSpace} ; Removes the t typed when not in dojo
-			lSleep(20)
+			lSleep(50)
 			WinActivate ahk_id %winid% ; Switches back to last active window
 			MouseMove mousex, mousey ; places cursor back to last position
 			BlockInput Off ; Unblocks user inputs
