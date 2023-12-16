@@ -72,9 +72,11 @@ file := A_ScriptDir "\copypastamsg.txt"
 				IfMsgBox Yes
 				{
 					clipboardCopy()
+					FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
 				}
 				else IfMsgBox No
 				{
+					FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
 					centeredToolTip("Script enabled!", 5000)
 				}
 				else IfMsgBox Cancel
@@ -96,6 +98,7 @@ file := A_ScriptDir "\copypastamsg.txt"
 		}
 		else
 		{
+			lSleep(50)
 			KeyWait Control ; KeyWaits are for making sure no keys are pressed down when BlockInput is activated,
 			KeyWait Alt     ; without this if a key is pressed down when BlockInput is activated, it'll be stuck
 			KeyWait Tab     ; down and can mess with the message being sent in trade chat
@@ -109,7 +112,6 @@ file := A_ScriptDir "\copypastamsg.txt"
 			MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
 			WinActivate, ahk_exe Warframe.x64.exe
 			WinGetPos, X, Y,,, ahk_exe Warframe.x64.exe
-			FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
 			lSleep(20)
 			Send {Blind}{Text} %msgtext%
 			lSleep(50)				
