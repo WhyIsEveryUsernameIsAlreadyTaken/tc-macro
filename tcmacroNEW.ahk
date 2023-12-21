@@ -39,6 +39,7 @@ clipboardCopy()
 			FileAppend %Clipboard%, copypastamsg.txt
 			centeredToolTip("Message copied & script enabled!", 5000)
 }
+
 removeToolTip(){
 	ToolTip
 }
@@ -48,83 +49,90 @@ centeredToolTip(text, duration = 1000){
 	SetTimer, RemoveToolTip, -%duration%
 }
 
-file := A_ScriptDir "\copypastamsg.txt"
+WM_COMMNOTIFY(wParam) { 
+    if (wParam = 1027) { ; AHK_DIALOG 
+        Process, Exist 
+        DetectHiddenWindows, On 
+        if WinExist("tclazy2 ahk_class #32770 ahk_pid " . ErrorLevel) { 
+          ControlSetText, Button1, &Replace
+          ControlSetText, Button2, &Keep
+		  ControlSetText, Button3, &Cancel
+        } 
+    } 
+}
 
-^r::Reload ; Reloads the script, used when going through loading screens in-game
+textfile := A_ScriptDir "\copypastamsg.txt"
 
-^j::
-	afk := !afk
-	if (afk){
-		if !FileExist(file)
-		{
-			clipboardCopy()
-		}
-		else
-		{
-			FileGetSize,size,%file%,
-			if size = 0
-			{
-				clipboardCopy()
-			}
-			else
-			{
-				MsgBox, 3, tclazy2, Do you want to replace last saved message?
-				IfMsgBox Yes
-				{
-					clipboardCopy()
-					FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
-				}
-				else IfMsgBox No
-				{
-					FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
-					centeredToolTip("Script enabled!", 5000)
-				}
-				else IfMsgBox Cancel
-				{
-					Reload
-				}
-			}
-		}
-	}
-	else {
-		centeredToolTip("Off")
-	}
-	while (afk){
+pasteLoop(boolvar, strvar, file)
+{
+	while (boolvar){
 		FileGetSize,size,%file%,
 		if !FileExist(file) or size = 0
 		{
 			MsgBox, 0, Storage File Empty/Not Found, Press OK to generate new file and store desired text
 			clipboardCopy()
 		}
+		KeyWait Control ; KeyWaits are for making sure no keys are pressed down when BlockInput is activated,
+		KeyWait Alt     ; without this if a key is pressed down when BlockInput is activated, it'll be stuck
+		KeyWait Tab     ; down and can mess with the message being sent in trade chat
+		KeyWait Space
+		KeyWait Enter
+		KeyWait Esc
+		KeyWait BS
+		KeyWait Shift
+		BlockInput On ; Blocks user inputs to prevent messing with message being sent into trade chat
+		WinGet, winid ,, A ; Gets the current active window before switching to Warframe window
+		MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
+		WinActivate, ahk_exe Warframe.x64.exe
+		WinGetPos, X, Y,,, ahk_exe Warframe.x64.exe
+		lSleep(20)
+		Send {Blind}{Text} %strvar%
+		lSleep(50)				
+		Send {Blind}{enter} 
+		lSleep(50)
+		Send {Blind}{t} ; Reopens trade chat when in dojo
+		lSleep(50)
+		SendInput {Blind}{BackSpace} ; Removes the t typed when not in dojo
+		lSleep(50)
+		WinActivate ahk_id %winid% ; Switches back to last active window
+		MouseMove mousex, mousey ; places cursor back to last position
+		BlockInput Off ; Unblocks user inputs
+		lSleep(120000)
+	}
+}
+
+^r::Reload ; Reloads the script, used when going through loading screens in-game
+
+^j::
+	afk := !afk
+	if (afk){
+		FileGetSize,size,%textfile%,
+		if !FileExist(textfile) or size = 0
+		{
+			clipboardCopy()
+			FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
+			pasteLoop(afk, msgtext, textfile)
+		}
 		else
 		{
-			lSleep(50)
-			KeyWait Control ; KeyWaits are for making sure no keys are pressed down when BlockInput is activated,
-			KeyWait Alt     ; without this if a key is pressed down when BlockInput is activated, it'll be stuck
-			KeyWait Tab     ; down and can mess with the message being sent in trade chat
-			KeyWait Space
-			KeyWait Enter
-			KeyWait Esc
-			KeyWait BS
-			KeyWait Shift
-			BlockInput On ; Blocks user inputs to prevent messing with message being sent into trade chat
-			WinGet, winid ,, A ; Gets the current active window before switching to Warframe window
-			MouseGetPos mousex, mousey ; Gets the cursor position before switching to Warframe window
-			WinActivate, ahk_exe Warframe.x64.exe
-			WinGetPos, X, Y,,, ahk_exe Warframe.x64.exe
-			lSleep(20)
-			Send {Blind}{Text} %msgtext%
-			lSleep(50)				
-			Send {Blind}{enter} 
-			lSleep(50)
-			Send {Blind}{t} ; Reopens trade chat when in dojo
-			lSleep(50)
-			SendInput {Blind}{BackSpace} ; Removes the t typed when not in dojo
-			lSleep(50)
-			WinActivate ahk_id %winid% ; Switches back to last active window
-			MouseMove mousex, mousey ; places cursor back to last position
-			BlockInput Off ; Unblocks user inputs
-			lSleep(120000)
+			OnMessage(0x44, "WM_COMMNOTIFY") 
+			MsgBox, 3, tclazy2, Do you want to replace last saved message?
+			IfMsgBox Yes
+			{
+				clipboardCopy()
+				FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
+				pasteLoop(afk, msgtext, textfile)
+			}
+			else IfMsgBox No
+			{
+				FileRead msgtext, copypastamsg.txt ; Gets the message to be sent in trade chat
+				centeredToolTip("Script enabled!", 5000)
+				pasteLoop(afk, msgtext, textfile)
+			}
+			else IfMsgBox Cancel
+			{
+				Reload
+			}
 		}
 	}
 return
