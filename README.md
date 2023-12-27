@@ -2,6 +2,9 @@
 multi dev project by me, TinyZach, and alembertian
 (i did like nothing just made the base all credits to them xd)
 
+
+**[tcmacroNEW](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tclazy2.ahk) NOW REQUIRES AHK V2 TO RUN**
+
 [tcmacroOLD](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tc%20macro.ahk) is the base code which i made which is just the base copy paste every 2 minutes 
 [tcmacroNEW](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tclazy2.ahk) is TinyZach's tc macro is an edit of mine with and alt-tab function
 ~~**IMPORTANT**
@@ -23,3 +26,8 @@ Update 4.)
 Update 5.)
 - Added a prompt asking if the user wants to replace the last saved message or continue with the last saved message
 - Adds Mouse move functions to alt tab functionality, returning the mouse cursor to its original position
+
+Update 6.)
+- Rewritten for ahk v2 syntax
+- Added option to alternate between 2 messages
+- Last update to [tcmacroNEW](https://github.com/WhyIsEveryUsernameIsAlreadyTaken/tc-macro/blob/main/tclazy2.ahk) before releasing the new and very much improved tclazypy
