@@ -3,9 +3,6 @@ multi dev project by me, TinyZach, and alembertian
 (i did like nothing just made the base all credits to them xd)
 
 # DIRECTIONS
-Steps for Using [tclazypy.exe](https://github.com/sn0wwfall/tc-macro/blob/main/tclazypy.exe):
-1. download and run exe
-2. enjoy :)
 
 Steps for Using [tclazypy.py](https://github.com/sn0wwfall/tc-macro/blob/main/tclazypy.py):
 1. open CMD
