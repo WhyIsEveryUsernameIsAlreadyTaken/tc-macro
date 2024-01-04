@@ -344,7 +344,7 @@ def ScriptToggle():
             r.destroy()
             EditMessages()
         else:
-            b.configure(text="Stop", command=lambda button=b: stopApp(button))
+            b.configure(text="Stop", command=lambda root=r, button=b: stopApp(root, button))
             global hasRan
             if not hasRan:
                 hasRan = True
@@ -352,8 +352,8 @@ def ScriptToggle():
             global paused
             paused = False
 
-    def stopApp(b):
-        b.configure(text="Start", command=lambda button=b: startApp(button))
+    def stopApp(r, b):
+        b.configure(text="Start", command=lambda root=r, button=b: startApp(root, button))
         global hasRan
         hasRan = False
         global paused
